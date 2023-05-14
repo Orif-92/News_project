@@ -1,4 +1,6 @@
 {% load static %}
+{% load i18n %}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,20 +32,36 @@
         <div class="header_top">
           <div class="header_top_left">
             <ul class="top_nav">
-              <li><a href="{% url 'home_page' %}">Bosh sahifa</a></li>
+              <li><a href="{% url 'home_page' %}">{% blocktrans %}Bosh sahifa{% endblocktrans %}</a></li>
               <li><a href="#">Biz haqimizda</a></li>
-              <li><a href="{% url 'contact_page' %}">Biz bilan aloqa</a></li>
+              <li><a href="{% url 'contact_page' %}">{% blocktrans %}Biz bilan aloqa{% endblocktrans %}</a></li>
                 {% if user.is_authenticated and user.is_superuser %}
-                <li><a href="{% url 'admin_page' %}">Admin sahifasi</a> </li>
+                <li><a href="{% url 'admin_page' %}">{% blocktrans %}Admin sahifasi{% endblocktrans %}</a> </li>
                 {% endif %}
+
+            <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
+            <input name="next" type="hidden" value="{{ redirect_to }}">
+            <select name="language">
+                {% get_current_language as LANGUAGE_CODE %}
+                {% get_available_languages as LANGUAGES %}
+                {% get_language_info_list for LANGUAGES as languages %}
+                {% for language in languages %}
+                    <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                        {{ language.name_local }} ({{ language.code }})
+                    </option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="Go">
+        </form>
+
             </ul>
           </div>
           <div class="header_top_right">
                 {% if request.user.is_authenticated %}
-              <p><a href="{% url 'logout' %}" style="color:palegreen">Logout</a> </p>
-              <p><a href="{% url 'user_profile' %}" style="color: yellow">My profile</a> </p>
+              <p><a href="{% url 'logout' %}" style="color:palegreen">{% blocktrans %}Chiqish{% endblocktrans %}</a> </p>
+              <p><a href="{% url 'user_profile' %}" style="color: yellow">{% blocktrans %}Mening profilim{% endblocktrans %}</a> </p>
               {% else %}
-              <p><a href="{% url 'login' %}" style="color: yellow">Saytga kirish</a> </p>
+              <p><a href="{% url 'login' %}" style="color: yellow">{% blocktrans %}Saytga kirish{% endblocktrans %}</a> </p>
               {% endif %}
               <p>{% now "jS F Y H:i" %}</p>
 
@@ -61,16 +79,16 @@
   <section id="navArea">
     <nav class="navbar navbar-inverse" role="navigation">
       <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">{% blocktrans %}Navigatsiya{% endblocktrans %}</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
       </div>
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav main_nav">
-          <li class="active"><a href="{% url 'home_page' %}"><span class="fa fa-home desktop-home"></span><span class="mobile-show">Bosh sahifa</span></a></li>
-          <li><a href="{% url 'local_news_page' %}">Mahalliy</a></li>
-         <li><a href="{% url 'foreign_news_page' %}">Xorij</a></li>
-          <li><a href="{% url 'technology_news_page' %}">Texnologiya</a></li>
-          <li><a href="{% url 'sport_news_page' %}">Sport</a></li>
-          <li><a href="{% url 'contact_page' %}">Biz bilan aloqa</a></li>
+          <li class="active"><a href="{% url 'home_page' %}"><span class="fa fa-home desktop-home"></span><span class="mobile-show">{% blocktrans %}Bosh sahifa{% endblocktrans %}</span></a></li>
+          <li><a href="{% url 'local_news_page' %}">{% blocktrans %}Mahalliy{% endblocktrans %}</a></li>
+         <li><a href="{% url 'foreign_news_page' %}">{% blocktrans %}Xorij{% endblocktrans %}</a></li>
+          <li><a href="{% url 'technology_news_page' %}">{% blocktrans %}Texnologiya{% endblocktrans %}</a></li>
+          <li><a href="{% url 'sport_news_page' %}">{% blocktrans %}Sport{% endblocktrans %}</a></li>
+          <li><a href="{% url 'contact_page' %}">{% blocktrans %}Biz bilan aloqa{% endblocktrans %}</a></li>
 {#          <li><a href="pages/404.html">404 Page</a></li>#}
             <li>
                 <form method="get" action="{% url 'search_results' %}">
@@ -84,7 +102,7 @@
   <section id="newsSection">
     <div class="row">
       <div class="col-lg-12 col-md-12">
-        <div class="latest_newsarea"> <span>So'nggi yangiliklar</span>
+        <div class="latest_newsarea"> <span>{% blocktrans %}So'nggi yangiliklar{% endblocktrans %}</span>
           <ul id="ticker01" class="news_sticker">
               {% for news in latest_news %}
             <li><a href="{% url 'news_detail_page' news.slug %}">
@@ -118,12 +136,12 @@
       <div class="row">
         <div class="col-lg-4 col-md-4 col-sm-4">
           <div class="footer_widget wow fadeInLeftBig">
-            <h2>Flickr Images</h2>
+            <h2>{% blocktrans %}Flickr rasmlar{% endblocktrans %}</h2>
           </div>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-4">
           <div class="footer_widget wow fadeInDown">
-            <h2>Teglar</h2>
+            <h2>{% blocktrans %}Teglar{% endblocktrans %}</h2>
             <ul class="tag_nav">
                 {% for kategory in categories %}
               <li><a href="#">{{ kategory.name }}</a></li>
@@ -133,7 +151,7 @@
         </div>
         <div class="col-lg-4 col-md-4 col-sm-4">
           <div class="footer_widget wow fadeInRightBig">
-            <h2>Biz bilan aloqa</h2>
+            <h2>{% blocktrans %}Biz bilan aloqa{% endblocktrans %}</h2>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
             <address>
             Perfect News,1238 S . 123 St.Suite 25 Town City 3333,USA Phone: 123-326-789 Fax: 123-546-567
@@ -143,8 +161,8 @@
       </div>
     </div>
     <div class="footer_bottom">
-      <p class="copyright">Copyright &copy; 2045 <a href="home.html">NewsFeed</a></p>
-      <p class="developer">Developed By Wpfreeware</p>
+      <p class="copyright">Copyright &copy; 2045 <a href="home.html">{% blocktrans %}Yangiliklar tasmasi{% endblocktrans %}</a></p>
+      <p class="developer">{% blocktrans %}Wpfreeware tomonidan ishlab chiqilgan{% endblocktrans %}</p>
     </div>
   </footer>
 </div>

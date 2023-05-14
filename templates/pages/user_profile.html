@@ -1,11 +1,12 @@
 {% extends 'news/base.html' %}
+{% load i18n %}
 {% load static %}
 
 {% block title %}Foydalanuvchi profili{% endblock title %}
 
 {% block content %}
     <h3>Xush kelibsiz, {{ user.username }}</h3>
-    <h3><a href="{% url 'logout' %}" class="text-danger">Log out</a> </h3>
+    <h3><a href="{% url 'logout' %}" class="text-danger">Chiqish</a> </h3>
     <h2>Siz haqingizdagi ma'lumotlar</h2>
     <img src="{{ profile.photo.url }}" width="30%">
     <h4>Tug'ilgan yilingiz: {{ profile.date_of_birth }}</h4>
