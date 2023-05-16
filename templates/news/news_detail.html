@@ -1,6 +1,5 @@
 {% extends 'news/base.html' %}
 {% load static %}
-{% load i18n %}
 {% load hitcount_tags %}
 
 {% block title %} {{ news.title }} {% endblock title %}
@@ -9,18 +8,18 @@
 
      <h2>{{ news.title }}</h2>
     <h5>{{ news.publish_time }} | <i class="fa fa-eye" aria-hidden="true"></i>
-        {% get_hit_count for news %} | {% blocktrans %}Izohlar soni{% endblocktrans %}: {{ comment_count }}</h5>
+        {% get_hit_count for news %} | Izohlar soni: {{ comment_count }}</h5>
 
     <img src="{{ news.image.url }}">
     <p>{{ news.body }}</p>
 
     {% if request.user.is_authenticated and request.user.is_superuser%}
 <div class="card-footer text-center">
-<a href="{% url 'news_update' news.slug %}">{% blocktrans %}Tahrirlash{% endblocktrans %}</a> |
-<a href="{% url 'news_delete' news.slug %}">{% blocktrans %}O'chirish{% endblocktrans %}</a> |
+<a href="{% url 'news_update' news.slug %}">Tahrirlash</a> |
+<a href="{% url 'news_delete' news.slug %}">O'chirish</a> |
 </div>
     {% endif %} <br>
-<h3>{% blocktrans %}Bu yangilikka {{ comment_count }} ta izoh qoldirilgan{% endblocktrans %}</h3>
+<h3>Bu yangilikka {{ comment_count }} ta izoh qoldirilgan</h3>
 {% for comment in comments %}
 
     <div class="comments" style="padding: 10px">
@@ -41,17 +40,17 @@
          <form method="POST" style="margin-top: 1.3em">{% csrf_token %}
              {{ comment_form.as_p }}
              <button type="submit" class="btn btn-primary btn-lg">
-                 {% blocktrans %}Yuborish{% endblocktrans %}
+                 Yuborish
              </button>
          </form>
      </div>
     </div>
     {% else %}
     <div class="card-body">
-    <p class="text-danger">{% blocktrans %}Faqatgina ro'yhatdan o'tgan foydalanuvchilar izoh qoldirishi mumkin{% endblocktrans %}</p>
+    <p class="text-danger">Faqatgina ro'yhatdan o'tgan foydalanuvchilar izoh qoldirishi mumkin</p>
     <p>Izoh qoldirish uchun
-        <a href="{% url 'user_register' %}">{% blocktrans %}Ro'yhatdan o'ting{% endblocktrans %} </a>
-        yoki <a href="{% url 'login' %}">{% blocktrans %}Saytga kiring{% endblocktrans %}</a>
+        <a href="{% url 'user_register' %}">ro'yhatdan o'ting </a>
+        yoki <a href="{% url 'login' %}">Saytga kiring</a>
     </p>
     </div>
     {% endif %}
