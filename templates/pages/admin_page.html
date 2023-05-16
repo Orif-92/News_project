@@ -1,10 +1,10 @@
 {% extends 'news/base.html' %}
 {% load i18n %}
 
-{% block title %}{% block %} Admin sahifasi{% endblock %} {% endblock title %}
+{% block title %}{% blocktrans %}Admin sahifasi{% endblocktrans %}{% endblock %}
 
 {% block content %}
-<h1>{% blocktranslate %}Admin sahifasi{% e %}</h1>
+<h1>{% blocktrans %}Admin sahifasi{% endblocktrans %}</h1>
 <h3>{% blocktrans %}Barcha adminlar{% endblocktrans %}</h3>
  <table class="table table-bordered table-responsive table-striped">
  <tr>
